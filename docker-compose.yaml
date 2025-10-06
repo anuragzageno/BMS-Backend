@@ -1,0 +1,65 @@
+version: "3.0"
+
+services:
+  pricingdbnew:
+    image: arm64v8/postgres
+    container_name: bms
+    environment:
+      POSTGRES_PASSWORD: bms 
+      POSTGRES_USER: bms
+    ports: 
+      - "5442:5432"
+    volumes:
+      - bms_vol:/var/lib/postgresql/data
+    networks:
+      - net-bms
+      
+  studiobookingdb:
+    image: postgres:15
+    container_name: studio-booking-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: studiobooking
+    ports:
+      - "5432:5432"
+    volumes:
+      - studio_booking_vol:/var/lib/postgresql/data
+    networks:
+      - net-bms
+
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pg-admin
+    restart: always
+    ports:
+      - "5402:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin.search@zageno.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    networks:
+      - net-bms
+    volumes:
+      - pgadmin-data_vol:/var/lib/pgadmin
+
+volumes:
+  bms_vol:
+  pgadmin-data_vol:
+  studio_booking_vol:
+
+
+networks:
+  net-bms:
+
+
+
+
+
+
+
+
+
+
+
+

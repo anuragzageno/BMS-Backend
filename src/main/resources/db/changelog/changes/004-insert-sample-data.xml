@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="004" author="studio-booking">
+        <!-- Insert sample studios -->
+        <insert tableName="studios">
+            <column name="name">SportZone</column>
+            <column name="address">123 Main Street</column>
+            <column name="city">Bangalore</column>
+            <column name="state">Karnataka</column>
+            <column name="postal_code">560001</column>
+            <column name="contact_phone">+91-9876543210</column>
+            <column name="contact_email">info@sportzone.com</column>
+            <column name="rating">4.5</column>
+            <column name="opening_time">06:00:00</column>
+            <column name="closing_time">22:00:00</column>
+        </insert>
+        
+        <insert tableName="studios">
+            <column name="name">Fitness Hub</column>
+            <column name="address">456 Park Avenue</column>
+            <column name="city">Bangalore</column>
+            <column name="state">Karnataka</column>
+            <column name="postal_code">560002</column>
+            <column name="contact_phone">+91-9876543211</column>
+            <column name="contact_email">info@fitnesshub.com</column>
+            <column name="rating">4.2</column>
+            <column name="opening_time">07:00:00</column>
+            <column name="closing_time">21:00:00</column>
+        </insert>
+        
+        <insert tableName="studios">
+            <column name="name">Urban Sports</column>
+            <column name="address">789 Ring Road</column>
+            <column name="city">Delhi</column>
+            <column name="state">Delhi</column>
+            <column name="postal_code">110001</column>
+            <column name="contact_phone">+91-9876543212</column>
+            <column name="contact_email">info@urbansports.com</column>
+            <column name="rating">4.7</column>
+            <column name="opening_time">05:30:00</column>
+            <column name="closing_time">23:00:00</column>
+        </insert>
+
+        <!-- Insert sample courts -->
+        <insert tableName="courts">
+            <column name="studio_id">1</column>
+            <column name="name">Court A1</column>
+            <column name="court_type">BADMINTON</column>
+            <column name="hourly_rate">500.00</column>
+            <column name="capacity">4</column>
+            <column name="amenities">Air Conditioned, Wooden Flooring, Changing Rooms</column>
+        </insert>
+        
+        <insert tableName="courts">
+            <column name="studio_id">1</column>
+            <column name="name">Court A2</column>
+            <column name="court_type">BADMINTON</column>
+            <column name="hourly_rate">500.00</column>
+            <column name="capacity">4</column>
+            <column name="amenities">Air Conditioned, Wooden Flooring, Changing Rooms</column>
+        </insert>
+        
+        <insert tableName="courts">
+            <column name="studio_id">2</column>
+            <column name="name">Court B1</column>
+            <column name="court_type">BADMINTON</column>
+            <column name="hourly_rate">450.00</column>
+            <column name="capacity">4</column>
+            <column name="amenities">Air Conditioned, Synthetic Flooring</column>
+        </insert>
+        
+        <insert tableName="courts">
+            <column name="studio_id">3</column>
+            <column name="name">Court C1</column>
+            <column name="court_type">BADMINTON</column>
+            <column name="hourly_rate">600.00</column>
+            <column name="capacity">4</column>
+            <column name="amenities">Premium Wooden Flooring, Shower Facilities, Towel Service</column>
+        </insert>
+        
+        <insert tableName="courts">
+            <column name="studio_id">3</column>
+            <column name="name">Court C2</column>
+            <column name="court_type">BADMINTON</column>
+            <column name="hourly_rate">600.00</column>
+            <column name="capacity">4</column>
+            <column name="amenities">Premium Wooden Flooring, Shower Facilities, Towel Service</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
