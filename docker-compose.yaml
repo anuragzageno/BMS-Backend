@@ -1,19 +1,6 @@
 version: "3.0"
 
-services:
-  pricingdbnew:
-    image: arm64v8/postgres
-    container_name: bms
-    environment:
-      POSTGRES_PASSWORD: bms 
-      POSTGRES_USER: bms
-    ports: 
-      - "5442:5432"
-    volumes:
-      - bms_vol:/var/lib/postgresql/data
-    networks:
-      - net-bms
-      
+services:      
   studiobookingdb:
     image: postgres:15
     container_name: studio-booking-db
