@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: studiobooking
     ports:
-      - "5432:5432"
+      - "5435:5432"
     volumes:
       - studio_booking_vol:/var/lib/postgresql/data
     networks:
