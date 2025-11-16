@@ -5,92 +5,168 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
 
-    <changeSet id="004" author="studio-booking">
+    <changeSet id="004-v2" author="studio-booking">
+        <!-- Insert sample users -->
+        <insert tableName="users">
+            <column name="name" value="John Doe"/>
+            <column name="email" value="john.doe@example.com"/>
+            <column name="phone" value="+1-555-0123"/>
+        </insert>
+        
+        <insert tableName="users">
+            <column name="name" value="Jane Smith"/>
+            <column name="email" value="jane.smith@example.com"/>
+            <column name="phone" value="+1-555-0124"/>
+        </insert>
+        
         <!-- Insert sample studios -->
         <insert tableName="studios">
-            <column name="name">SportZone</column>
-            <column name="address">123 Main Street</column>
-            <column name="city">Bangalore</column>
-            <column name="state">Karnataka</column>
-            <column name="postal_code">560001</column>
-            <column name="contact_phone">+91-9876543210</column>
-            <column name="contact_email">info@sportzone.com</column>
-            <column name="rating">4.5</column>
-            <column name="opening_time">06:00:00</column>
-            <column name="closing_time">22:00:00</column>
+            <column name="name" value="Elite Sports Arena"/>
+            <column name="address" value="123 Sports Complex Drive"/>
+            <column name="city" value="Mumbai"/>
+            <column name="state" value="Maharashtra"/>
+            <column name="postal_code" value="400001"/>
+            <column name="contact_phone" value="+91-98765-43210"/>
+            <column name="contact_email" value="info@elitesports.com"/>
+            <column name="rating" value="4.5"/>
+            <column name="opening_time" value="06:00:00"/>
+            <column name="closing_time" value="23:00:00"/>
+            <column name="description" value="Premium badminton and squash courts with modern amenities"/>
+            <column name="image_url" value="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b"/>
+            <column name="facilities" value="AC Courts, Parking, Changing Rooms, Equipment Rental, Refreshments"/>
+            <column name="pricing_info" value="Starting from ₹500/hour"/>
         </insert>
-        
+
         <insert tableName="studios">
-            <column name="name">Fitness Hub</column>
-            <column name="address">456 Park Avenue</column>
-            <column name="city">Bangalore</column>
-            <column name="state">Karnataka</column>
-            <column name="postal_code">560002</column>
-            <column name="contact_phone">+91-9876543211</column>
-            <column name="contact_email">info@fitnesshub.com</column>
-            <column name="rating">4.2</column>
-            <column name="opening_time">07:00:00</column>
-            <column name="closing_time">21:00:00</column>
+            <column name="name" value="Sporty Hub"/>
+            <column name="address" value="456 Game Zone Street"/>
+            <column name="city" value="Pune"/>
+            <column name="state" value="Maharashtra"/>
+            <column name="postal_code" value="411001"/>
+            <column name="contact_phone" value="+91-87654-32109"/>
+            <column name="contact_email" value="contact@sportyhub.com"/>
+            <column name="rating" value="4.2"/>
+            <column name="opening_time" value="05:30:00"/>
+            <column name="closing_time" value="22:30:00"/>
+            <column name="description" value="Multi-sport facility with badminton, table tennis and squash courts"/>
+            <column name="image_url" value="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8c"/>
+            <column name="facilities" value="Multiple Courts, Coaching Available, Equipment Store, Cafeteria"/>
+            <column name="pricing_info" value="Starting from ₹400/hour"/>
         </insert>
-        
+
         <insert tableName="studios">
-            <column name="name">Urban Sports</column>
-            <column name="address">789 Ring Road</column>
-            <column name="city">Delhi</column>
-            <column name="state">Delhi</column>
-            <column name="postal_code">110001</column>
-            <column name="contact_phone">+91-9876543212</column>
-            <column name="contact_email">info@urbansports.com</column>
-            <column name="rating">4.7</column>
-            <column name="opening_time">05:30:00</column>
-            <column name="closing_time">23:00:00</column>
+            <column name="name" value="Champion Courts"/>
+            <column name="address" value="789 Victory Lane"/>
+            <column name="city" value="Bangalore"/>
+            <column name="state" value="Karnataka"/>
+            <column name="postal_code" value="560001"/>
+            <column name="contact_phone" value="+91-76543-21098"/>
+            <column name="contact_email" value="hello@championcourts.com"/>
+            <column name="rating" value="4.7"/>
+            <column name="opening_time" value="06:00:00"/>
+            <column name="closing_time" value="24:00:00"/>
+            <column name="description" value="Professional grade courts for serious players"/>
+            <column name="image_url" value="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8d"/>
+            <column name="facilities" value="Professional Courts, Tournament Hosting, Pro Shop, Spa Wellness"/>
+            <column name="pricing_info" value="Starting from ₹600/hour"/>
         </insert>
 
         <!-- Insert sample courts -->
         <insert tableName="courts">
-            <column name="studio_id">1</column>
-            <column name="name">Court A1</column>
-            <column name="court_type">BADMINTON</column>
-            <column name="hourly_rate">500.00</column>
-            <column name="capacity">4</column>
-            <column name="amenities">Air Conditioned, Wooden Flooring, Changing Rooms</column>
+            <column name="studio_id" value="1"/>
+            <column name="name" value="Badminton Court A"/>
+            <column name="court_type" value="BADMINTON"/>
+            <column name="hourly_rate" value="500.00"/>
+            <column name="capacity" value="4"/>
+            <column name="amenities" value="AC, Premium Flooring, Equipment Available"/>
+        </insert>
+
+        <insert tableName="courts">
+            <column name="studio_id" value="1"/>
+            <column name="name" value="Badminton Court B"/>
+            <column name="court_type" value="BADMINTON"/>
+            <column name="hourly_rate" value="500.00"/>
+            <column name="capacity" value="4"/>
+            <column name="amenities" value="AC, Premium Flooring, Equipment Available"/>
+        </insert>
+
+        <insert tableName="courts">
+            <column name="studio_id" value="1"/>
+            <column name="name" value="Squash Court 1"/>
+            <column name="court_type" value="SQUASH"/>
+            <column name="hourly_rate" value="600.00"/>
+            <column name="capacity" value="2"/>
+            <column name="amenities" value="AC, Glass Back Wall, Professional Lighting"/>
+        </insert>
+
+        <insert tableName="courts">
+            <column name="studio_id" value="2"/>
+            <column name="name" value="Badminton Court 1"/>
+            <column name="court_type" value="BADMINTON"/>
+            <column name="hourly_rate" value="400.00"/>
+            <column name="capacity" value="4"/>
+            <column name="amenities" value="Good Lighting, Wooden Flooring"/>
+        </insert>
+
+        <insert tableName="courts">
+            <column name="studio_id" value="2"/>
+            <column name="name" value="Table Tennis Court"/>
+            <column name="court_type" value="TABLE_TENNIS"/>
+            <column name="hourly_rate" value="300.00"/>
+            <column name="capacity" value="4"/>
+            <column name="amenities" value="Professional Table, Good Ventilation"/>
+        </insert>
+
+        <insert tableName="courts">
+            <column name="studio_id" value="3"/>
+            <column name="name" value="Championship Court"/>
+            <column name="court_type" value="BADMINTON"/>
+            <column name="hourly_rate" value="600.00"/>
+            <column name="capacity" value="4"/>
+            <column name="amenities" value="Tournament Standard, AC, Live Streaming Setup"/>
+        </insert>
+
+        <insert tableName="courts">
+            <column name="studio_id" value="3"/>
+            <column name="name" value="Practice Court 1"/>
+            <column name="court_type" value="BADMINTON"/>
+            <column name="hourly_rate" value="550.00"/>
+            <column name="capacity" value="4"/>
+            <column name="amenities" value="AC, Premium Flooring, Sound System"/>
+        </insert>
+
+        <!-- Insert sample bookings -->
+        <insert tableName="bookings">
+            <column name="court_id" value="1"/>
+            <column name="user_id" value="1"/>
+            <column name="customer_name" value="John Doe"/>
+            <column name="customer_email" value="john.doe@example.com"/>
+            <column name="customer_phone" value="+1-555-0123"/>
+            <column name="booking_date" value="2024-12-01"/>
+            <column name="start_time" value="18:00:00"/>
+            <column name="end_time" value="19:00:00"/>
+            <column name="status" value="CONFIRMED"/>
+            <column name="amount_paid" value="500.00"/>
+            <column name="payment_status" value="PAID"/>
+            <column name="booking_reference" value="BK001"/>
+            <column name="special_requests" value="Please provide shuttlecocks"/>
+        </insert>
+
+        <insert tableName="bookings">
+            <column name="court_id" value="2"/>
+            <column name="user_id" value="2"/>
+            <column name="customer_name" value="Jane Smith"/>
+            <column name="customer_email" value="jane.smith@example.com"/>
+            <column name="customer_phone" value="+1-555-0124"/>
+            <column name="booking_date" value="2024-12-02"/>
+            <column name="start_time" value="16:00:00"/>
+            <column name="end_time" value="17:00:00"/>
+            <column name="status" value="CONFIRMED"/>
+            <column name="amount_paid" value="500.00"/>
+            <column name="payment_status" value="PAID"/>
+            <column name="booking_reference" value="BK002"/>
         </insert>
         
-        <insert tableName="courts">
-            <column name="studio_id">1</column>
-            <column name="name">Court A2</column>
-            <column name="court_type">BADMINTON</column>
-            <column name="hourly_rate">500.00</column>
-            <column name="capacity">4</column>
-            <column name="amenities">Air Conditioned, Wooden Flooring, Changing Rooms</column>
-        </insert>
-        
-        <insert tableName="courts">
-            <column name="studio_id">2</column>
-            <column name="name">Court B1</column>
-            <column name="court_type">BADMINTON</column>
-            <column name="hourly_rate">450.00</column>
-            <column name="capacity">4</column>
-            <column name="amenities">Air Conditioned, Synthetic Flooring</column>
-        </insert>
-        
-        <insert tableName="courts">
-            <column name="studio_id">3</column>
-            <column name="name">Court C1</column>
-            <column name="court_type">BADMINTON</column>
-            <column name="hourly_rate">600.00</column>
-            <column name="capacity">4</column>
-            <column name="amenities">Premium Wooden Flooring, Shower Facilities, Towel Service</column>
-        </insert>
-        
-        <insert tableName="courts">
-            <column name="studio_id">3</column>
-            <column name="name">Court C2</column>
-            <column name="court_type">BADMINTON</column>
-            <column name="hourly_rate">600.00</column>
-            <column name="capacity">4</column>
-            <column name="amenities">Premium Wooden Flooring, Shower Facilities, Towel Service</column>
-        </insert>
     </changeSet>
 
 </databaseChangeLog>

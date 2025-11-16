@@ -3,25 +3,18 @@ package com.booking.studiobooking.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourtDto {
-    
+public class UserDto {
     private Long id;
-    private Long studioId;
-    private String studioName;
     private String name;
-    private String courtType;
-    private BigDecimal hourlyRate;
-    private Boolean isAvailable;
-    private Integer capacity;
-    private String amenities;
+    private String email;
+    private String phone;
+    private String profileImage;
+    private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    
 }

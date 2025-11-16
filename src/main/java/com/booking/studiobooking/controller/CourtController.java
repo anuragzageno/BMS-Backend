@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -64,7 +66,7 @@ public class CourtController {
     
     @PostMapping
     public ResponseEntity<CourtDto> createCourt(@RequestBody CourtDto courtDto) {
-        Optional<Studio> studio = studioService.getStudioById(courtDto.getStudioId());
+        Optional<Studio> studio = studioService.getStudioEntityById(courtDto.getStudioId());
         if (studio.isPresent()) {
             Court court = convertToEntity(courtDto, studio.get());
             Court savedCourt = courtService.saveCourt(court);
@@ -78,7 +80,7 @@ public class CourtController {
     public ResponseEntity<CourtDto> updateCourt(@PathVariable Long id, @RequestBody CourtDto courtDto) {
         Optional<Court> existingCourt = courtService.getCourtById(id);
         if (existingCourt.isPresent()) {
-            Optional<Studio> studio = studioService.getStudioById(courtDto.getStudioId());
+            Optional<Studio> studio = studioService.getStudioEntityById(courtDto.getStudioId());
             if (studio.isPresent()) {
                 Court court = convertToEntity(courtDto, studio.get());
                 court.setId(id);
@@ -100,6 +102,19 @@ public class CourtController {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{courtId}/availability")
+    public ResponseEntity<Map<String, Object>> getCourtAvailability(
+            @PathVariable Long courtId,
+            @RequestParam String date) {
+        try {
+            LocalDate bookingDate = LocalDate.parse(date);
+            Map<String, Object> availability = courtService.getCourtAvailability(courtId, bookingDate);
+            return ResponseEntity.ok(availability);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
     }
     

@@ -8,6 +8,10 @@
     <include file="/db/changelog/changes/001-create-studios-schema.xml"/>
     <include file="/db/changelog/changes/002-create-courts-schema.xml"/>
     <include file="/db/changelog/changes/003-create-bookings-schema.xml"/>
+    <include file="/db/changelog/changes/005-create-users-schema.xml"/>
+    <include file="/db/changelog/changes/006-enhance-bookings-schema.xml"/>
+    <include file="/db/changelog/changes/007-enhance-studios-schema.xml"/>
+    <include file="/db/changelog/changes/005-transform-to-dance-studios.xml"/>
     <include file="/db/changelog/changes/004-insert-sample-data.xml"/>
     
 </databaseChangeLog>

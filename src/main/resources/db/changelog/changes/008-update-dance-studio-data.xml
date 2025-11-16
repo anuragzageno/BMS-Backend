@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="008" author="studio-booking">
+        <!-- Clear existing courts data -->
+        <delete tableName="bookings"/>
+        <delete tableName="dance_rooms"/>
+        
+        <!-- Update studio data to be dance studios -->
+        <update tableName="studios">
+            <column name="name" value="Elite Dance Academy"/>
+            <column name="description" value="Premier dance studio with professional-grade rooms for all dance styles"/>
+            <column name="facilities" value="AC Rooms, Mirrors, Sound System, Changing Rooms, Parking"/>
+            <column name="pricing_info" value="Starting from ₹800/hour"/>
+            <where>id = 1</where>
+        </update>
+
+        <update tableName="studios">
+            <column name="name" value="Rhythm Dance Hub"/>
+            <column name="description" value="Modern dance studio with multiple rooms for dance training and performances"/>
+            <column name="facilities" value="Multiple Rooms, Sound System, Mirrors, Air Conditioning"/>
+            <column name="pricing_info" value="Starting from ₹600/hour"/>
+            <where>id = 2</where>
+        </update>
+
+        <update tableName="studios">
+            <column name="name" value="Motion Dance Studio"/>
+            <column name="description" value="Professional dance studio with specialized rooms for various dance forms"/>
+            <column name="facilities" value="Professional Rooms, Recording Setup, Sound System, Video Equipment"/>
+            <column name="pricing_info" value="Starting from ₹1000/hour"/>
+            <where>id = 3</where>
+        </update>
+
+        <!-- Insert sample dance rooms -->
+        <insert tableName="dance_rooms">
+            <column name="studio_id" value="1"/>
+            <column name="name" value="Big Hall 1"/>
+            <column name="room_type" value="BIG_HALL"/>
+            <column name="hourly_rate" value="800.00"/>
+            <column name="capacity" value="24"/>
+            <column name="amenities" value="AC, Floor-to-ceiling mirrors, Professional sound system, Wooden flooring"/>
+        </insert>
+
+        <insert tableName="dance_rooms">
+            <column name="studio_id" value="1"/>
+            <column name="name" value="Small Hall A"/>
+            <column name="room_type" value="SMALL_HALL"/>
+            <column name="hourly_rate" value="600.00"/>
+            <column name="capacity" value="8"/>
+            <column name="amenities" value="AC, Mirrors, Sound system, Premium flooring"/>
+        </insert>
+
+        <insert tableName="dance_rooms">
+            <column name="studio_id" value="1"/>
+            <column name="name" value="Reel Booth 1"/>
+            <column name="room_type" value="REEL_BOOTH"/>
+            <column name="hourly_rate" value="1200.00"/>
+            <column name="capacity" value="6"/>
+            <column name="amenities" value="AC, Professional lighting, Recording equipment, Green screen"/>
+        </insert>
+
+        <insert tableName="dance_rooms">
+            <column name="studio_id" value="2"/>
+            <column name="name" value="Big Hall 2"/>
+            <column name="room_type" value="BIG_HALL"/>
+            <column name="hourly_rate" value="700.00"/>
+            <column name="capacity" value="24"/>
+            <column name="amenities" value="Mirrors, Sound system, Good lighting"/>
+        </insert>
+
+        <insert tableName="dance_rooms">
+            <column name="studio_id" value="2"/>
+            <column name="name" value="Small Hall B"/>
+            <column name="room_type" value="SMALL_HALL"/>
+            <column name="hourly_rate" value="500.00"/>
+            <column name="capacity" value="8"/>
+            <column name="amenities" value="Mirrors, Sound system, Air conditioning"/>
+        </insert>
+
+        <insert tableName="dance_rooms">
+            <column name="studio_id" value="3"/>
+            <column name="name" value="Premium Big Hall"/>
+            <column name="room_type" value="BIG_HALL"/>
+            <column name="hourly_rate" value="1000.00"/>
+            <column name="capacity" value="24"/>
+            <column name="amenities" value="Professional setup, AC, Premium sound, LED lighting"/>
+        </insert>
+
+        <insert tableName="dance_rooms">
+            <column name="studio_id" value="3"/>
+            <column name="name" value="Reel Booth Pro"/>
+            <column name="room_type" value="REEL_BOOTH"/>
+            <column name="hourly_rate" value="1500.00"/>
+            <column name="capacity" value="6"/>
+            <column name="amenities" value="4K cameras, Professional lighting, Editing suite access"/>
+        </insert>
+
+        <!-- Insert sample bookings for dance rooms -->
+        <insert tableName="bookings">
+            <column name="dance_room_id" value="1"/>
+            <column name="user_id" value="1"/>
+            <column name="customer_name" value="John Doe"/>
+            <column name="customer_email" value="john.doe@example.com"/>
+            <column name="customer_phone" value="+1-555-0123"/>
+            <column name="booking_date" value="2024-12-01"/>
+            <column name="start_time" value="18:00:00"/>
+            <column name="end_time" value="19:00:00"/>
+            <column name="status" value="CONFIRMED"/>
+            <column name="amount_paid" value="800.00"/>
+            <column name="payment_status" value="PAID"/>
+            <column name="booking_reference" value="BK001"/>
+            <column name="special_requests" value="Please have the sound system ready"/>
+        </insert>
+
+        <insert tableName="bookings">
+            <column name="dance_room_id" value="2"/>
+            <column name="user_id" value="2"/>
+            <column name="customer_name" value="Jane Smith"/>
+            <column name="customer_email" value="jane.smith@example.com"/>
+            <column name="customer_phone" value="+1-555-0124"/>
+            <column name="booking_date" value="2024-12-02"/>
+            <column name="start_time" value="16:00:00"/>
+            <column name="end_time" value="17:00:00"/>
+            <column name="status" value="CONFIRMED"/>
+            <column name="amount_paid" value="600.00"/>
+            <column name="payment_status" value="PAID"/>
+            <column name="booking_reference" value="BK002"/>
+        </insert>
+        
+    </changeSet>
+
+</databaseChangeLog>

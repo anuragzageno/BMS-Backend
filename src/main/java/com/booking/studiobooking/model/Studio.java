@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "studios")
@@ -56,6 +57,21 @@ public class Studio {
     
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+    
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    
+    @Column(name = "image_url")
+    private String imageUrl;
+    
+    @Column(length = 1000)
+    private String facilities;
+    
+    @Column(name = "pricing_info")
+    private String pricingInfo;
+    
+    @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Court> courts;
     
     @PrePersist
     protected void onCreate() {

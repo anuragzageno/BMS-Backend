@@ -21,11 +21,21 @@ public class Booking {
     private Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "court_id", nullable = false)
-    private Court court;
+    @JoinColumn(name = "dance_room_id", nullable = false)
+    private DanceRoom danceRoom;
     
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+    
+    @Column(name = "customer_name", nullable = false)
+    private String customerName;
+    
+    @Column(name = "customer_email", nullable = false)
+    private String customerEmail;
+    
+    @Column(name = "customer_phone")
+    private String customerPhone;
     
     @Column(name = "booking_date", nullable = false)
     private LocalDate bookingDate;
@@ -50,6 +60,12 @@ public class Booking {
     
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+    
+    @Column(name = "booking_reference", nullable = false, unique = true)
+    private String bookingReference;
+    
+    @Column(name = "special_requests")
+    private String specialRequests;
     
     @PrePersist
     protected void onCreate() {
