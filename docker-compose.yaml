@@ -9,11 +9,17 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: studiobooking
     ports:
-      - "5435:5432"
+      - "5436:5432"
     volumes:
       - studio_booking_vol:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     networks:
       - net-bms
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d studiobooking"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 
   pgadmin:
