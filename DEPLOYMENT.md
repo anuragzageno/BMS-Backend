@@ -6,7 +6,7 @@ This repository uses GitHub Actions to automatically build Spring Boot JAR files
 
 ## Deployment Architecture
 
-**Server:** Oracle Cloud VM (`140.245.31.40`)
+**Server:** Oracle Cloud VM 
 **Deployment Structure:**
 ```
 <DEPLOY_PATH>/
