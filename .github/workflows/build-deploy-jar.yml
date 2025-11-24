@@ -47,16 +47,16 @@ jobs:
       
       - name: Archive old JAR on server (if exists)
         run: |
-          ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@140.245.31.40 << 'EOF'
+          ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ ubuntu }}@140.245.31.40 << 'EOF'
             # Create directory structure if it doesn't exist
-            mkdir -p ${{ secrets.ORACLE_DEPLOY_PATH }}/active
-            mkdir -p ${{ secrets.ORACLE_DEPLOY_PATH }}/archive
+            mkdir -p /home/ubuntu/artifacts/active
+            mkdir -p /home/ubuntu/artifacts/archive
             
             # Move existing JAR from active to archive with timestamp
-            if [ -f ${{ secrets.ORACLE_DEPLOY_PATH }}/active/${{ steps.artifact-info.outputs.jar_file }} ]; then
+            if [ -f /home/ubuntu/artifacts/active/${{ steps.artifact-info.outputs.jar_file }} ]; then
               TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-              mv ${{ secrets.ORACLE_DEPLOY_PATH }}/active/${{ steps.artifact-info.outputs.jar_file }} \
-                 ${{ secrets.ORACLE_DEPLOY_PATH }}/archive/${{ steps.artifact-info.outputs.artifact_name }}-${{ steps.artifact-info.outputs.version }}-${TIMESTAMP}.jar
+              mv /home/ubuntu/artifacts/active/${{ steps.artifact-info.outputs.jar_file }} \
+                 /home/ubuntu/artifacts/archive/${{ steps.artifact-info.outputs.artifact_name }}-${{ steps.artifact-info.outputs.version }}-${TIMESTAMP}.jar
               echo "Archived old JAR to archive folder"
             else
               echo "No existing JAR found in active folder"
@@ -67,22 +67,22 @@ jobs:
         run: |
           scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no \
             target/${{ steps.artifact-info.outputs.jar_file }} \
-            ${{ secrets.ORACLE_USER }}@140.245.31.40:${{ secrets.ORACLE_DEPLOY_PATH }}/active/
+            ${{ ubuntu }}@140.245.31.40:/home/ubuntu/artifacts/active/
       
       - name: Verify deployment
         run: |
-          ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@140.245.31.40 << 'EOF'
+          ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ ubuntu }}@140.245.31.40 << 'EOF'
             echo "Contents of active folder:"
-            ls -lh ${{ secrets.ORACLE_DEPLOY_PATH }}/active/
+            ls -lh /home/ubuntu/artifacts/active/
             echo ""
             echo "Contents of archive folder:"
-            ls -lh ${{ secrets.ORACLE_DEPLOY_PATH }}/archive/ | tail -5
+            ls -lh /home/ubuntu/artifacts/archive/ | tail -5
           EOF
       
       - name: Cleanup old archives (keep last 10)
         run: |
-          ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@140.245.31.40 << 'EOF'
-            cd ${{ secrets.ORACLE_DEPLOY_PATH }}/archive
+          ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ ubuntu }}@140.245.31.40 << 'EOF'
+            cd /home/ubuntu/artifacts/archive
             # Keep only the 10 most recent archived JARs
             ls -t *.jar 2>/dev/null | tail -n +11 | xargs -r rm --
             echo "Cleaned up old archives, kept last 10"
