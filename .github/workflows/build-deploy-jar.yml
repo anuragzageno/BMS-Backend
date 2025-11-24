@@ -1,0 +1,96 @@
+name: Build and Deploy JAR to Oracle Server
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+      
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+      
+      - name: Get artifact name and version
+        id: artifact-info
+        run: |
+          ARTIFACT_NAME=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          JAR_FILE="${ARTIFACT_NAME}-${VERSION}.jar"
+          JAR_FILE_TIMESTAMPED="${ARTIFACT_NAME}-${VERSION}-${TIMESTAMP}.jar"
+          echo "jar_file=${JAR_FILE}" >> $GITHUB_OUTPUT
+          echo "jar_file_timestamped=${JAR_FILE_TIMESTAMPED}" >> $GITHUB_OUTPUT
+          echo "artifact_name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+      
+      - name: Prepare SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ORACLE_SSH_KEY }}" > ~/.ssh/oracle_key
+          chmod 600 ~/.ssh/oracle_key
+          ssh-keyscan -H 140.245.31.40 >> ~/.ssh/known_hosts
+      
+      - name: Archive old JAR on server (if exists)
+        run: |
+          ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@140.245.31.40 << 'EOF'
+            # Create directory structure if it doesn't exist
+            mkdir -p ${{ secrets.ORACLE_DEPLOY_PATH }}/active
+            mkdir -p ${{ secrets.ORACLE_DEPLOY_PATH }}/archive
+            
+            # Move existing JAR from active to archive with timestamp
+            if [ -f ${{ secrets.ORACLE_DEPLOY_PATH }}/active/${{ steps.artifact-info.outputs.jar_file }} ]; then
+              TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+              mv ${{ secrets.ORACLE_DEPLOY_PATH }}/active/${{ steps.artifact-info.outputs.jar_file }} \
+                 ${{ secrets.ORACLE_DEPLOY_PATH }}/archive/${{ steps.artifact-info.outputs.artifact_name }}-${{ steps.artifact-info.outputs.version }}-${TIMESTAMP}.jar
+              echo "Archived old JAR to archive folder"
+            else
+              echo "No existing JAR found in active folder"
+            fi
+          EOF
+      
+      - name: Deploy JAR to Oracle server
+        run: |
+          scp -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no \
+            target/${{ steps.artifact-info.outputs.jar_file }} \
+            ${{ secrets.ORACLE_USER }}@140.245.31.40:${{ secrets.ORACLE_DEPLOY_PATH }}/active/
+      
+      - name: Verify deployment
+        run: |
+          ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@140.245.31.40 << 'EOF'
+            echo "Contents of active folder:"
+            ls -lh ${{ secrets.ORACLE_DEPLOY_PATH }}/active/
+            echo ""
+            echo "Contents of archive folder:"
+            ls -lh ${{ secrets.ORACLE_DEPLOY_PATH }}/archive/ | tail -5
+          EOF
+      
+      - name: Cleanup old archives (keep last 10)
+        run: |
+          ssh -i ~/.ssh/oracle_key -o StrictHostKeyChecking=no ${{ secrets.ORACLE_USER }}@140.245.31.40 << 'EOF'
+            cd ${{ secrets.ORACLE_DEPLOY_PATH }}/archive
+            # Keep only the 10 most recent archived JARs
+            ls -t *.jar 2>/dev/null | tail -n +11 | xargs -r rm --
+            echo "Cleaned up old archives, kept last 10"
+          EOF
+      
+      - name: Upload artifact to GitHub
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.artifact-info.outputs.jar_file_timestamped }}
+          path: target/${{ steps.artifact-info.outputs.jar_file }}
+          retention-days: 30
