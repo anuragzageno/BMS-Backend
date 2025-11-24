@@ -50,10 +50,10 @@ ssh-keygen -t ed25519 -C "github-actions-bms-backend" -f ~/.ssh/github_actions_b
 
 ```bash
 # Copy public key to Oracle server
-ssh-copy-id -i ~/.ssh/github_actions_bms.pub <your-user>@140.245.31.40
+ssh-copy-id -i ~/.ssh/github_actions_bms.pub ubuntu@140.245.31.40
 
 # OR manually:
-ssh <your-user>@140.245.31.40
+ssh ubuntu@140.245.31.40
 mkdir -p ~/.ssh
 echo "<paste-your-public-key-content>" >> ~/.ssh/authorized_keys
 chmod 700 ~/.ssh
@@ -63,14 +63,14 @@ chmod 600 ~/.ssh/authorized_keys
 ### Step 3: Create Deployment Directory on Oracle Server
 
 ```bash
-ssh <your-user>@140.245.31.40
+ssh ubuntu@140.245.31.40
 
 # Create deployment directories
-mkdir -p /path/to/deployment/active
-mkdir -p /path/to/deployment/archive
+mkdir -p /home/ubuntu/artifacts/active
+mkdir -p /home/ubuntu/artifacts/archive
 
 # Verify
-ls -la /path/to/deployment/
+ls -la /home/ubuntu/artifacts/
 ```
 
 ### Step 4: Add GitHub Secrets
@@ -137,13 +137,13 @@ git push origin main
 
 ```bash
 # SSH to Oracle server
-ssh <your-user>@140.245.31.40
+ssh ubuntu@140.245.31.40
 
 # Check active JAR
-ls -lh /path/to/deployment/active/
+ls -lh /home/ubuntu/artifacts/active/
 
 # Check archived JARs
-ls -lh /path/to/deployment/archive/
+ls -lh /home/ubuntu/artifacts/archive/
 ```
 
 ---
@@ -152,7 +152,7 @@ ls -lh /path/to/deployment/archive/
 
 ### Manual Run
 ```bash
-cd /path/to/deployment/active
+cd /home/ubuntu/artifacts/active
 java -jar *.jar
 ```
 
@@ -171,9 +171,9 @@ After=network.target
 
 [Service]
 Type=simple
-User=<your-user>
-WorkingDirectory=/path/to/deployment/active
-ExecStart=/usr/bin/java -jar /path/to/deployment/active/*.jar
+User=ubuntu
+WorkingDirectory=/home/ubuntu/artifacts/active
+ExecStart=/usr/bin/java -jar /home/ubuntu/artifacts/active/*.jar
 Restart=on-failure
 RestartSec=10
 
@@ -227,7 +227,7 @@ Add this step to workflow after "Deploy JAR" step:
 ## Folder Structure After Deployment
 
 ```
-/path/to/deployment/
+/home/ubuntu/artifacts/
 ├── active/
 │   └── bms-backend-1.0.0.jar          # Current version
 └── archive/
